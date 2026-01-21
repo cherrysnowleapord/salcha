@@ -66,7 +66,7 @@ void salcha_init(salcha_ctx_t *ctx, const uint8_t *key, const size_t key_len, co
     if(ctx == NULL || key == NULL || !key_len)
         return;
     
-    _memset(ctx, 0, sizeof(salcha_ctx_t));
+    memset(ctx, 0, sizeof(salcha_ctx_t));
 
     salcha_state_init(ctx, key_len);
 
@@ -86,7 +86,7 @@ void salcha_xor(const uint8_t *input, const size_t input_len, uint8_t *out, salc
     size_t blocks_size;
     size_t counter = 0;
 
-    _memcpy(out, input, input_len);
+    memcpy(out, input, input_len);
 
     while(offset < input_len) {
         blocks_size = (input_len - offset) < SALCHA_RAW_STATE_SIZE ? (input_len - offset) : SALCHA_RAW_STATE_SIZE;
