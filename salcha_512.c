@@ -8,35 +8,15 @@
  *   - Full-state diffusion via matrix rounding.
  *   - XOR encryption/decryption with generated keystream.
  *   - Uses diagonal, row, and column mixing for strong diffusion.
- *
- * Dependencies:
- *   .h:
- *     crypto/qrh_256.h
- *     crypto/salcha_512.h
- *     crypto/internal.h
- *     bits/bitmath.h
- *     config/crypto/salcha_512.h
- *     config/function_refs/string_refs.h
- *
- *   .c:
- *     (none)
  */
+
 #include <assert.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <stdbool.h>
 
-#include "crypto/qrh_256.h"
-#include "crypto/salcha_512.h"
-
-#include "crypto/internal.h"
-#include "crypto/types.h"
-
-#include "bits/bool.h"
-#include "bits/bitmath.h"
-
-#include "config/crypto/salcha_512.h"
-#include "config/function_refs/string_refs.h"
+#include "salcha_512.h"
 
 /* Constants*/
 
@@ -59,6 +39,28 @@ static void salcha_state_init(salcha_ctx_t *ctx, const size_t key_len);
 static void salcha_set_quarters(salcha_ctx_t *ctx, uint32_t *quarters[4][3], int x);
 static void salcha_matrix_rounding(salcha_ctx_t *ctx);
 static void salcha_init_matrix_state(salcha_ctx_t *ctx);
+
+void lround4(uint32_t *a, uint32_t *b, uint32_t *c, uint32_t *d, const uint32_t p1, const uint32_t p2) {
+    *a += (p2 + *b); 
+    *b ^= *a;  
+    *b = ROTL32((*b + p1), 5);   
+    *a = ROTL32((*a + p1), 11);
+
+    *c += (p1 + *d); 
+    *d ^= *c;  
+    *d = ROTL32((*d + p2), 12);  
+    *c = ROTL32((*c + p2), 15);
+
+    *a += (p1 + *b); 
+    *b ^= *a;  
+    *b = ROTL32((*b + p2), 14);
+    *a = ROTL32((*a + p2), 25);
+
+    *c += (p2 + *d); 
+    *d ^= *c;  
+    *d = ROTL32((*c + p1), 7);
+    *c = ROTL32((*c + p1), 30);
+}
 
 void salcha_init(salcha_ctx_t *ctx, const uint8_t *key, const size_t key_len, const uint8_t nonce[SALCHA_NONCE_SIZE]) {
     if(ctx == NULL || key == NULL || !key_len)
