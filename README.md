@@ -9,12 +9,6 @@
 ✅ **Secure Key Derivation**: Full-state initialization with key and nonce
 ✅ **High Performance**: Capable of 287+ MB/s encryption throughput
 
-## Technical Specifications
-- **Key Size**: Variable length support
-- **Nonce Size**: 32 bytes (256 bits)
-- **State Size**: 512 bits (16 × 32-bit words)
-- **Block Size**: 64 bytes raw state processing
-
 ## Core Functionality
 
 ### Initialization
