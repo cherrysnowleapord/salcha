@@ -1,5 +1,7 @@
 # SalCha-512 Stream Cipher
 
+⚠️ **Note**: This is a custom/educational implementation intended for learning and demonstration purposes. For production systems, use well-established cryptographic libraries like OpenSSL.
+
 ## Overview
 🔒 A custom implementation of the SalCha-512 stream cipher optimized for 32-bit CPU architectures. This cryptographic library provides secure encryption/decryption capabilities with strong diffusion properties and efficient performance.
 
@@ -88,3 +90,7 @@ This implementation demonstrates advanced cryptographic engineering principles i
 - Efficient 32-bit arithmetic optimization
 - Secure key scheduling and state management
 - Comprehensive error handling and validation
+
+## ⚠️ Disclaimer
+
+This is an educational implementation created to demonstrate cryptographic concepts and C programming skills. While implemented with security best practices in mind, it has not undergone formal cryptanalysis or security auditing. Use established cryptographic libraries for production applications requiring security guarantees.
